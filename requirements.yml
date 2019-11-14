@@ -1,0 +1,11 @@
+---
+# Install Ansible roles for GlusterFS
+# ansible-galaxy install -r requirements.yml
+
+# Download gluster.infra from git
+- name: gluster.infra
+  src: https://github.com/gluster/gluster-ansible-infra
+
+# Download gluster.cluster from git
+- name: gluster.cluster
+  src: https://github.com/gluster/gluster-ansible-cluster

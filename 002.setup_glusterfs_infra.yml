@@ -1,0 +1,56 @@
+---
+# ansible-playbook -v 002.setup_glusterfs_infra.yml -u root
+- hosts: all
+  become: yes
+  become_user: root
+  gather_facts: False
+
+  pre_tasks:
+     - name: Update repositories cache and install "xfsprogs" package
+       package:
+          name: xfsprogs
+          update_cache: yes
+          state: present
+     - name: Ensure that the lvm packages are installed on your target system
+       package:
+          name: lvm2
+          update_cache: yes
+          state: present
+
+
+  # See https://github.com/gluster/gluster-ansible-infra for details
+  vars:
+     # Set a disk type, Options: JBOD, RAID6, RAID10
+     gluster_infra_disktype: JBOD
+    #  # RAID6 and RAID10 diskcount (Needed only when disktype is raid)
+    #  gluster_infra_diskcount: 3
+    #  # Stripe unit size always in KiB. gluster_infra_diskcount * gluster_infra_stripe_unit_size should be between 1 - 2 MB
+    #  gluster_infra_stripe_unit_size: 384
+
+    # enable lvm auto-extend feature so that when the pool is at 70% it will be extended with 15%
+    #  gluster_infra_lvm: {
+    #   autoexpand_threshold: 70,
+    #   autoexpand_percentage: 15,
+    #  }
+   
+     # enable fstrim service so the TRIM command is executed once in a while to clean either ssd or thin/vdo volumes
+     fstrim_service: {
+       enabled: yes,
+       schedule: {         
+         hour: "{{ range(1, 4) | random() }}"
+       }
+      }
+
+     gluster_infra_volume_groups:
+       - { vgname: 'volgroup1', pvname: '/dev/sda' }
+     
+     # Create thick logical volume
+     gluster_infra_thick_lvs:
+       - { vgname: 'volgroup1', lvname: 'thick_lv_1' }      
+
+     # Mount the devices
+     gluster_infra_mount_devices:
+       - { path: '/mnt/brick1', vgname: 'volgroup1', lvname: 'thick_lv_1' }       
+
+  roles:
+     - gluster.infra

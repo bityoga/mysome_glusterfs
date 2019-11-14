@@ -1,0 +1,7 @@
+- hosts: localhost
+  become: yes
+  become_user: root
+  gather_facts: False
+  tasks:
+  - debug:
+      msg: "{{ glusterfs_cluster_ips.split(',')[0] }}"
