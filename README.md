@@ -1,2 +1,2 @@
-# fabric_as_code
-Provisioning and Spawning a Hyperledger Fabric on Docker Swarm
+# glusterfs
+Provisioning and Spawning a GlusterFS cluster
