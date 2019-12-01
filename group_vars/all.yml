@@ -1,6 +1,6 @@
 ---
 # Digital ocean API access token
-do_oauth_token: 2c7eab4408ccb4f5805e68030f0482f1f2120ed6e9c04e11bb9b227b58d0fbef
+do_oauth_token: <<token>>
 # curl -X GET -silent "https://api.digitalocean.com/v2/account/keys" -H "Authorization: Bearer 2c7eab4408ccb4f5805e68030f0482f1f2120ed6e9c04e11bb9b227b58d0fbef" # to retrive the key
 # Will list all the ssh key pub keys, ids, fingerprint and other relevent information. Execute it on your terminal to retrive the required ssk_keys ids that would be able to ssh onto the droplets
 # These ssh keys needs to be alrready created and present in digital ocean
@@ -11,19 +11,24 @@ ssh_keys: [20711668, 25140548]
 images:
   - image: "47384041" # fedora-30-x64
     size: "s-1vcpu-1gb"
-    region: "lon1"
-  - image: "47384041" # fedora-30-x64
-    size: "s-1vcpu-1gb"
-    region: "fra1"
-  - image: "47384041" # fedora-30-x64
-    size: "s-1vcpu-1gb"
     region: "fra1"
   - image: "47384041" # fedora-30-x64
     size: "s-1vcpu-1gb"
     region: "ams3"
   - image: "47384041" # fedora-30-x64
+    size: "s-1vcpu-1gb"
+    region: "ams3"
+  - image: "47384041" # fedora-30-x64
+    size: "s-1vcpu-1gb"
+    region: "ams3"
+  - image: "54930838" # Ubuntu 16.04.6 (LTS) x64
     size: "s-1vcpu-1gb"
     region: "ams3"
   
 glusterfs_daemon: "glusterd"
-glusterfs_cluster_ips: "{{ groups['fedora'] | map('extract', hostvars, ['ansible_host']) | join(',') }}"
+glusterfs_cluster_ips: "{{ groups['gfscluster'] | map('extract', hostvars, ['ansible_host']) | join(',') }}"
+glusterd_version: "7"
+# gluster volume
+gluster_cluster_volume: "gv0"
+# gluster cluster ips
+gluster_cluster_hosts: "{{ glusterfs_cluster_ips.split(',') }}"

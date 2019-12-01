@@ -42,17 +42,14 @@
 
     # create the directory before mounting the volume
     - file:
-        path: /root/myfiles
+        path: /var/persistantfs
         state: directory
         mode: 0755
 
     # Mount the volume on /root/myfiles
     - name: Mount Gluster volume
       mount:
-        path: /root/myfiles
-        src: "{{ glusterfs_cluster_ips.split(',')[0] }}:/gv0"
+        path: /var/persistantfs
+        src: "{{ gluster_cluster_hosts[0] }}:/{{gluster_cluster_volume}}"
         fstype: glusterfs
         state: mounted
-
-  vars:
-     glusterd_version: '7'

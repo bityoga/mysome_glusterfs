@@ -36,23 +36,19 @@
 
     - name: Update repositories cache and install "glusterfs-server" package
       package:
-        name: glusterfs-server
+        name: "{{item}}"
         update_cache: yes
+      loop:
+        - "glusterfs-server"
 
     - name: Set python path symlink
       file:
-        src: "/usr/bin/python3.7"
+        src: "/usr/bin/python3"
         dest: "/usr/bin/python"
         state: link
       when: ansible_os_family == 'RedHat'
   
   vars:
-    glusterd_version: '7'
-
-    # gluster volume
-    gluster_cluster_hosts: "{{ glusterfs_cluster_ips.split(',') }}"
-    # gluster volume
-    gluster_cluster_volume: 'gv0'
     gluster_cluster_transport: 'tcp'
     gluster_cluster_force: 'yes'
     gluster_cluster_bricks: '/mnt/brick1'

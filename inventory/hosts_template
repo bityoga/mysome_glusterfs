@@ -1,4 +1,4 @@
-[fedora]
-gfs1  ansible_python_interpreter="/usr/bin/python3.7"
-gfs2  ansible_python_interpreter="/usr/bin/python3.7"
-gfs3  ansible_python_interpreter="/usr/bin/python3.7"
+[gfscluster]
+gfs1  ansible_python_interpreter="/usr/bin/python3"
+gfs2  ansible_python_interpreter="/usr/bin/python3"
+gfs3  ansible_python_interpreter="/usr/bin/python3"
