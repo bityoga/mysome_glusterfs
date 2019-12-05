@@ -14,12 +14,19 @@ ansible python module location = /usr/local/lib/python3.7/site-packages/ansible
 executable location = /usr/local/bin/ansible
 python version = 3.7.4 (default, Jul  9 2019, 18:13:23) [Clang 10.0.1 (clang-1001.0.46.4)]
 ```
+- Furthermore, on your local machine you need to have some ansible plugins installed.
+  - Navigate to the folder `mysome_glusterfs`
+  - Execute the command `ansible-galaxy install -r requirements.yml`
+
 - The remote machines donot need ansible installed. However, all remote hosts **must** have python version `2.7.x` or `above`
 
 ## Defining the remote host machines
 In order to set up gusterfs cluster we would need a set of host machines. Ansible will comunicate with these machines and setup your cluster.
 
-- Please navigate to the file `inventory/hosts`
+There are two mechanisms to set up the remote machines. Either manually or automated. However, the automated process currently only works on Digital Ocean. It is recommended to move with the automated process as of now
+
+### Automated
+- Please navigate to the file `inventory/hosts_template`
 - It looks as follows:
 ```
 [gfscluster]
@@ -27,7 +34,38 @@ In order to set up gusterfs cluster we would need a set of host machines. Ansibl
 
 
 ```
-- In order the specify the host machines, you need to populate this file with the ip address of these machines. Each line/row in the file would represent a host machine. The root/first line `[gfscluster]` gives a name to the cluster for internal reference in the project and **must not be changed**. Please fill each line in the format: `hostname ansible_host=remote.machine1.ip.adress  ansible_python_interpreter="/path/to/python"`
+- In order the specify the host machines, you need to populate this file `inventory/hosts_template` with the names of the host that you want to create. Each line/row in the file would represent a host machine. The root/first line `[gfscluster]` gives a name to the cluster for internal reference in the project and **must not be changed**. Please fill each line in the format: `hostname ansible_python_interpreter="/path/to/python"`
+  - `hostname`: can be any name. Must be unique for each machine. The project will internally refer to the machines with this name
+  - `ansible_python_interpreter`: In order for ansible to work, we need python 2.7.x or above available on each remote machine. Here we specify the **path of python on the remote machine** so that our local ansible project know where to find python on these machines.
+- The following *example* defines 3 machines as remote hosts
+```
+[gfscluster]
+gfs1 ansible_python_interpreter="/usr/bin/python3"
+gfs2 ansible_python_interpreter="/usr/bin/python3"
+gfs2 ansible_python_interpreter="/usr/bin/python3"
+```
+
+- Next we would run the following playbooks to create
+    - the number of VMs / Droplets
+    - a block mount on each machines
+- Playbook: `000.init.yml`
+    - Execute: `ansible-playbook -v 000.init.yml`
+    - Create a host file  inside inventory that would be filled up with the ips of the created host machines
+- Playbook: `001.spawn_droplets.yml`
+  - Execute: `ansible-playbook -v 001.spawn_droplets.yml`
+  - Creates the specified number of host machines on digital ocean. It also creates and mounts a block storage in digital ocean for each droplet / vm
+
+### Manual
+- Please navigate to the file `inventory/hosts_template`
+- It looks as follows:
+```
+[gfscluster]
+
+
+
+```
+- Rename this file as `inventory/hosts`
+- In order the specify the host machines, you need to populate this file `inventory/hosts` with the ip address of these machines. Each line/row in the file would represent a host machine. The root/first line `[gfscluster]` gives a name to the cluster for internal reference in the project and **must not be changed**. Please fill each line in the format: `hostname ansible_host=remote.machine1.ip.adress  ansible_python_interpreter="/path/to/python"`
   - `hostname`: can be any name. Must be unique for each machine. The project will internally refer to the machines with this name
   - `ansible_host`: the ip address of the remote host. This machine should be accessable over the network with this ip address
   - `ansible_python_interpreter`: In order for ansible to work, we need python 2.7.x or above available on each remote machine. Here we specify the **path of python on the remote machine** so that our local ansible project know where to find python on these machines.
@@ -38,10 +76,17 @@ gfs1 ansible_host=147.182.121.59  ansible_python_interpreter="/usr/bin/python3"
 gfs2 ansible_host=117.247.73.159  ansible_python_interpreter="/usr/bin/python3"
 gfs2 ansible_host=157.245.79.195  ansible_python_interpreter="/usr/bin/python3"
 ```
-
-## Configuration
+- **!!!Required: Ensure that you have password less SSH for these host for the user root**
 
 ## Setting up glusterfs
-### Setting up the infrastructure 
-### Setting up the cluster
-### Mounting glusterfs 
+Setting up of glusterfs requires the following steps. Creating th infrastructure with all dependencies installed and starting the gluster services in all the host machines. Finally, there is also mounting the point, but it is required only at client system that uses this gluster cluster. Therefore the mounting is not conducted for this cluster and the playbook is just shown as an example on how to mount this cluster into another system.
+
+- Playbook: `002.setup_glusterfs_infra.yml`
+  - Execute: `ansible-playbook -v 002.setup_glusterfs_infra.yml -u root`
+  - Sets up the remote host machines to join a glusterfs cluster
+- Playbook: `003.setup_glusterfs_cluster.yml`
+  - Execute: `ansible-playbook -v 003.setup_glusterfs_cluster.yml -u root`
+  - Create the glusterfs cluster
+- Playbook: `004.mount_glusterfs.yml`
+    - Execute: `ansible-playbook -v 004.mount_glusterfs.yml -u root`
+    - Mounts the glusterfs cluster. **Not to be executed for setting up this cluster**. It is rather shown as an example so that this cluster can be mounted into another system or cluster as a network file system

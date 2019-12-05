@@ -1,5 +1,5 @@
 ---
-# ansible-playbook -v 001.spawn_droplets.yml
+# ansible-playbook -v 000.init.yml
 
 - name: create droplets
   hosts: localhost
@@ -8,4 +8,4 @@
   vars:
     droplet_state: "present"
   roles:
-    - setuphostsmachines/droplets
+    - setuphostsmachines/init
