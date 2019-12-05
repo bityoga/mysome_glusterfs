@@ -21,7 +21,7 @@ python version = 3.7.4 (default, Jul  9 2019, 18:13:23) [Clang 10.0.1 (clang-100
 - The remote machines donot need ansible installed. However, all remote hosts **must** have python version `2.7.x` or `above`
 
 ## Configuration
-There are very few parameters to be configured currently. All configurations are made inside *all.yml*. 
+There are very few parameters to be configured currently. All configurations are made inside *group_vars/all.yml*. 
 - If you are using the automated process for host setup (*see bellow*), it needs few steps to enable ansible to setup the remote environment
   - **API token**
     - In order to connect with Digital Ocean. 
