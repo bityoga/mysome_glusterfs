@@ -20,6 +20,23 @@ python version = 3.7.4 (default, Jul  9 2019, 18:13:23) [Clang 10.0.1 (clang-100
 
 - The remote machines donot need ansible installed. However, all remote hosts **must** have python version `2.7.x` or `above`
 
+## Configuration
+There are very few parameters to be configured currently. All configurations are made inside *all.yml*. 
+- If you are using the automated process for host setup (*see bellow*), it needs few steps to enable ansible to setup the remote environment
+  - **API token**
+    - In order to connect with Digital Ocean. 
+    - Please see [https://www.digitalocean.com/docs/api/create-personal-access-token/]
+    - Once you get the token, please find `do_oauth_token` in `all.yml` and set its value there
+  - **SSH Keys**
+    - In order for setting up the cluster, ansible needs ssh password less login to the host machines.
+    - Your ssh public key from your local machines should be registered with digital ocean, see [https://www.digitalocean.com/docs/droplets/how-to/add-ssh-keys/to-account/] 
+    - Once you have the ssh keys registered with Digital Ocean, you need to retrived ths ssh key ids from digital ocean. You can execute the following command on the bash on your local machine to get  this ids: `curl -X GET -silent "https://api.digitalocean.com/v2/account/keys" -H "Authorization: Bearer API token`
+    - This will get a list of all ssh keys stored to your Digital Ocean account. You need to find the **numeric id** associated with your ssh key name. 
+    - Once you get the ssh key id, please find `ssh_keys` in `all.yml` and set its value there within the `[]` brackets
+  - **Volume Name**
+    - `gluster_cluster_volume` specifies the name of the created glusterfs volume. 
+    - You would need this name and ip address (from `inventory/hosts`) of any one of the machines in order to mount this filesystem into another cluster/system.
+
 ## Defining the remote host machines
 In order to set up gusterfs cluster we would need a set of host machines. Ansible will comunicate with these machines and setup your cluster.
 
