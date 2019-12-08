@@ -2,8 +2,7 @@
 # ansible-playbook -v 002.setup_glusterfs_infra.yml -u root
 - hosts: all
   become: yes
-  become_user: root
-  gather_facts: True
+  gather_facts: yes
 
   pre_tasks:
      - name: Update repositories cache and install "xfsprogs" package
@@ -17,6 +16,17 @@
           name: lvm2
           update_cache: yes
           state: present
+     
+     - name: "We remove the gfs virtual image reserve if it already exist"
+       file: 
+        src: /gfs0
+        status: absentt
+
+     - name: "We create a virtual volume on the existing volume"
+       shell: "fallocate -l {{gfs_size}} /gfs0"
+
+     - name: "Format the new virtual volume as ext4"
+       shell: "mkfs.ext4 /gfs0"
 
   # See https://github.com/gluster/gluster-ansible-infra for details
   vars:
@@ -43,7 +53,7 @@
       }
 
      gluster_infra_volume_groups:
-       - { vgname: 'volgroup1', pvname: '/dev/sda' }
+       - { vgname: 'volgroup1', pvname: '/gfs0' }
      
      # Create thick logical volume
      gluster_infra_thick_lvs:

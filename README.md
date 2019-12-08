@@ -42,37 +42,10 @@ In order to set up gusterfs cluster we would need a set of host machines. Ansibl
 
 There are two mechanisms to set up the remote machines. Either manually or automated. However, the automated process currently only works on Digital Ocean. It is recommended to move with the automated process as of now
 
-### Automated
-- Please navigate to the file `inventory/hosts_template`
-- It looks as follows:
-```
-[gfscluster]
-
-
-
-```
-- In order the specify the host machines, you need to populate this file `inventory/hosts_template` with the names of the host that you want to create. Each line/row in the file would represent a host machine. The root/first line `[gfscluster]` gives a name to the cluster for internal reference in the project and **must not be changed**. Please fill each line in the format: `hostname ansible_python_interpreter="/path/to/python"`
-  - `hostname`: can be any name. Must be unique for each machine. The project will internally refer to the machines with this name
-  - `ansible_python_interpreter`: In order for ansible to work, we need python 2.7.x or above available on each remote machine. Here we specify the **path of python on the remote machine** so that our local ansible project know where to find python on these machines.
-- The following *example* defines 3 machines as remote hosts
-```
-[gfscluster]
-gfs1 ansible_python_interpreter="/usr/bin/python3"
-gfs2 ansible_python_interpreter="/usr/bin/python3"
-gfs2 ansible_python_interpreter="/usr/bin/python3"
-```
-
-- Next we would run the following playbooks to create
-    - the number of VMs / Droplets
-    - a block mount on each machines
-- Playbook: `000.init.yml`
-    - Execute: `ansible-playbook -v 000.init.yml`
-    - Create a host file  inside inventory that would be filled up with the ips of the created host machines
-- Playbook: `001.spawn_droplets.yml`
-  - Execute: `ansible-playbook -v 001.spawn_droplets.yml`
-  - Creates the specified number of host machines on digital ocean. It also creates and mounts a block storage in digital ocean for each droplet / vm
-
-### Manual
+### Setting up remote host machines [optional]
+Currently the automation of VM generation is configured for only Digital Ocean. You can use github project digital_ocean_automation [https://github.com/achak1987/digital_ocean_automation] for spinning up a set of host machines. If you already have a set of host machines (or you set up the host machines using the project above), see the configure the connections with the host machines as described in the bellow. 
+ 
+### Configuring connection to remote machine
 - Please navigate to the file `inventory/hosts_template`
 - It looks as follows:
 ```

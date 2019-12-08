@@ -1,30 +1,4 @@
----
-# Digital ocean API access token
-do_oauth_token: 
-# curl -X GET -silent "https://api.digitalocean.com/v2/account/keys" -H "Authorization: Bearer 2c7eab4408ccb4f5805e68030f0482f1f2120ed6e9c04e11bb9b227b58d0fbef" # to retrive the key
-# Will list all the ssh key pub keys, ids, fingerprint and other relevent information. Execute it on your terminal to retrive the required ssk_keys ids that would be able to ssh onto the droplets
-# These ssh keys needs to be alrready created and present in digital ocean
-ssh_keys: []
-
-# curl -X GET -silent "https://api.digitalocean.com/v2/images?per_page=999" -H "Authorization: Bearer 2c7eab4408ccb4f5805e68030f0482f1f2120ed6e9c04e11bb9b227b58d0fbef" | grep --color -E "ubuntu"
-# Will get all the images and highlight ubuntu
-images:
-  - image: "47384041" # fedora-30-x64
-    size: "s-1vcpu-1gb"
-    region: "fra1"
-  - image: "47384041" # fedora-30-x64
-    size: "s-1vcpu-1gb"
-    region: "ams3"
-  - image: "47384041" # fedora-30-x64
-    size: "s-1vcpu-1gb"
-    region: "ams3"
-  - image: "47384041" # fedora-30-x64
-    size: "s-1vcpu-1gb"
-    region: "ams3"
-  - image: "47384041" # Ubuntu 16.04.6 (LTS) x64
-    size: "s-1vcpu-1gb"
-    region: "ams3"
-  
+--- 
 glusterfs_daemon: "glusterd"
 glusterfs_cluster_ips: "{{ groups['gfscluster'] | map('extract', hostvars, ['ansible_host']) | join(',') }}"
 glusterd_version: "7"
@@ -32,3 +6,5 @@ glusterd_version: "7"
 gluster_cluster_volume: "gv0"
 # gluster cluster ips
 gluster_cluster_hosts: "{{ glusterfs_cluster_ips.split(',') }}"
+# Size in GB for the initial GFS volume
+gfs_size: 12G
