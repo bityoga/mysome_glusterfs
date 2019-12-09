@@ -22,28 +22,16 @@ python version = 3.7.4 (default, Jul  9 2019, 18:13:23) [Clang 10.0.1 (clang-100
 
 ## Configuration
 There are very few parameters to be configured currently. All configurations are made inside *group_vars/all.yml*. 
-- If you are using the automated process for host setup (*see bellow*), it needs few steps to enable ansible to setup the remote environment
-  - **API token**
-    - In order to connect with Digital Ocean. 
-    - Please see [https://www.digitalocean.com/docs/api/create-personal-access-token/]
-    - Once you get the token, please find `do_oauth_token` in `all.yml` and set its value there
-  - **SSH Keys**
-    - In order for setting up the cluster, ansible needs ssh password less login to the host machines.
-    - Your ssh public key from your local machines should be registered with digital ocean, see [https://www.digitalocean.com/docs/droplets/how-to/add-ssh-keys/to-account/] 
-    - Once you have the ssh keys registered with Digital Ocean, you need to retrived ths ssh key ids from digital ocean. You can execute the following command on the bash on your local machine to get  this ids: `curl -X GET -silent "https://api.digitalocean.com/v2/account/keys" -H "Authorization: Bearer API token`
-    - This will get a list of all ssh keys stored to your Digital Ocean account. You need to find the **numeric id** associated with your ssh key name. 
-    - Once you get the ssh key id, please find `ssh_keys` in `all.yml` and set its value there within the `[]` brackets
   - **Volume Name**
     - `gluster_cluster_volume` specifies the name of the created glusterfs volume. 
     - You would need this name and ip address (from `inventory/hosts`) of any one of the machines in order to mount this filesystem into another cluster/system.
+  - **gfs_size**: Size of the initial volume on the report host that you want to add to gluster fs
 
 ## Defining the remote host machines
 In order to set up gusterfs cluster we would need a set of host machines. Ansible will comunicate with these machines and setup your cluster.
 
-There are two mechanisms to set up the remote machines. Either manually or automated. However, the automated process currently only works on Digital Ocean. It is recommended to move with the automated process as of now
-
 ### Setting up remote host machines [optional]
-Currently the automation of VM generation is configured for only Digital Ocean. You can use github project digital_ocean_automation [https://github.com/achak1987/digital_ocean_automation] for spinning up a set of host machines. If you already have a set of host machines (or you set up the host machines using the project above), see the configure the connections with the host machines as described in the bellow. 
+Currently the automation of VM generation is configured for only Digital Ocean. You can use github project digital_ocean_automation [https://github.com/achak1987/digital_ocean_automation] for spinning up a set of host machines. However, if you already have a set of host machines either spinned up using the above project or any other method, configure the connections with these host machines as described bellow. 
  
 ### Configuring connection to remote machine
 - Please navigate to the file `inventory/hosts_template`
@@ -55,7 +43,9 @@ Currently the automation of VM generation is configured for only Digital Ocean. 
 
 ```
 - Rename this file as `inventory/hosts`
-- In order the specify the host machines, you need to populate this file `inventory/hosts` with the ip address of these machines. Each line/row in the file would represent a host machine. The root/first line `[gfscluster]` gives a name to the cluster for internal reference in the project and **must not be changed**. Please fill each line in the format: `hostname ansible_host=remote.machine1.ip.adress  ansible_python_interpreter="/path/to/python"`
+- In order the specify the host machines, you need to populate this file `inventory/hosts` with the ip address of these machines. Each line/row in the file would represent a host machine. The root/first line `[gfscluster]` gives a name to the cluster for internal reference in the project and **must not be changed**. Please fill each line thereafter in the format: 
+
+`hostname ansible_host=remote.machine1.ip.adress ansible_python_interpreter="/path/to/python"`
   - `hostname`: can be any name. Must be unique for each machine. The project will internally refer to the machines with this name
   - `ansible_host`: the ip address of the remote host. This machine should be accessable over the network with this ip address
   - `ansible_python_interpreter`: In order for ansible to work, we need python 2.7.x or above available on each remote machine. Here we specify the **path of python on the remote machine** so that our local ansible project know where to find python on these machines.
