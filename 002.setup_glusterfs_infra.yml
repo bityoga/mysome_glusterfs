@@ -16,17 +16,15 @@
           name: lvm2
           update_cache: yes
           state: present
-     
-     - name: "We remove the gfs virtual image reserve if it already exist"
-       file: 
-        src: /gfs0
-        status: absentt
 
-     - name: "We create a virtual volume on the existing volume"
-       shell: "fallocate -l {{gfs_size}} /gfs0"
-
-     - name: "Format the new virtual volume as ext4"
-       shell: "mkfs.ext4 /gfs0"
+     - name: "Prep the FS"
+       shell: "{{item}}"
+       loop:
+        - "fallocate -l {{gfs_size}} /gfs0"
+        - "losetup /dev/loop0 /gfs0"
+        - "pvcreate /dev/loop0"
+        - "vgcreate firefly /dev/loop0"
+        - "mkfs.ext4 -F /dev/loop0"
 
   # See https://github.com/gluster/gluster-ansible-infra for details
   vars:
@@ -53,15 +51,15 @@
       }
 
      gluster_infra_volume_groups:
-       - { vgname: 'volgroup1', pvname: '/gfs0' }
+       - { vgname: 'firefly', pvname: '/dev/loop0' }
      
      # Create thick logical volume
      gluster_infra_thick_lvs:
-       - { vgname: 'volgroup1', lvname: 'thick_lv_1', shrink: no }      
+       - { vgname: 'firefly', lvname: 'thick_lv_1', shrink: no }      
 
      # Mount the devices
      gluster_infra_mount_devices:
-       - { path: '/mnt/brick1', vgname: 'volgroup1', lvname: 'thick_lv_1' }       
+       - { path: '/mnt/brick1', vgname: 'firefly', lvname: 'thick_lv_1' }       
 
   roles:
      - gluster.infra

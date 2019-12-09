@@ -21,8 +21,9 @@
       when: ansible_os_family == 'RedHat'
 
     - name: Add new apt source
+      
       apt_repository:
-        repo: deb https://download.gluster.org/pub/gluster/glusterfs/{{ glusterd_version }}/LATEST/Debian/stretch/amd64/apt stretch main
+        repo: ppa:gluster/glusterfs-{{ glusterd_version }}
         filename: gluster.list
         state: present
       when: ansible_os_family == 'Debian'
@@ -40,13 +41,15 @@
         update_cache: yes
       loop:
         - "glusterfs-server"
-
+        
     - name: Set python path symlink
       file:
         src: "/usr/bin/python3"
         dest: "/usr/bin/python"
         state: link
-      when: ansible_os_family == 'RedHat'
+    # Pause for 5 seconds to build  cache.
+    - pause:
+      seconds: 5
   
   vars:
     gluster_cluster_transport: 'tcp'
