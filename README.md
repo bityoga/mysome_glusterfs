@@ -38,6 +38,7 @@ Currently the automation of VM generation is configured for only Digital Ocean. 
 - It looks as follows:
 ```
 [gfscluster]
+clear
 
 
 
