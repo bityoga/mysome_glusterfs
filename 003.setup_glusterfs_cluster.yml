@@ -48,8 +48,9 @@
         dest: "/usr/bin/python"
         state: link
     # Pause for 5 seconds to build  cache.
-    - pause:
-      seconds: 5
+    - name: Pause for 5 seconds to build  cache
+      pause:
+        seconds: 5
   
   vars:
     gluster_cluster_transport: 'tcp'
