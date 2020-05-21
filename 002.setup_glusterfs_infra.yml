@@ -5,31 +5,49 @@
   gather_facts: yes
 
   pre_tasks:
-     - name: Update repositories cache and install "xfsprogs" package
-       package:
-          name: xfsprogs
-          update_cache: yes
-          state: present
+  - name: Update repositories cache and install "xfsprogs" package
+    package:
+      name: xfsprogs
+      update_cache: yes
+      state: present
 
-     - name: Ensure that the lvm packages are installed on your target system
-       package:
-          name: lvm2
-          update_cache: yes
-          state: present
+  - name: Ensure that the lvm packages are installed on your target system
+    package:
+      name: lvm2
+      update_cache: yes
+      state: present
 
-     - name: "Prep the FS"
-       shell: "{{item}}"
-       loop:
-        - "fallocate -l {{gfs_size}} /gfs0"
-        - "losetup /dev/loop0 /gfs0"
-        - "pvcreate /dev/loop0"
-        - "vgcreate firefly /dev/loop0"
-        - "mkfs.ext4 -F /dev/loop0"
+
+  - name: Check that the /dev/xvdh exists
+    stat:
+      path: /dev/xvdh
+    register: mount_volume
+
+  - name: Set gfs_mount
+    set_fact:
+      gfs_mount: '/data/gfs0'
+    when: mount_volume.stat.exists == True
+
+  - debug:
+      msg: "gfs mount point {{ gfs_mount }}"
+
+
+  - name: "Prep the FS"
+    shell: "{{item}}"
+    loop:
+      - "fallocate -l {{gfs_size}} {{ gfs_mount }}"
+      - "losetup /dev/loop0 {{ gfs_mount }}"
+      - "pvcreate /dev/loop0"
+      - "vgcreate firefly /dev/loop0"
+      - "mkfs.ext4 -F /dev/loop0"
 
   # See https://github.com/gluster/gluster-ansible-infra for details
   vars:
+    ansible_python_interpreter: /usr/bin/python3
+    gfs_size: 12G
+    gfs_mount: /gfs0
     # Set a disk type, Options: JBOD, RAID6, RAID10
-     gluster_infra_disktype: JBOD
+    gluster_infra_disktype: JBOD
     #  # RAID6 and RAID10 diskcount (Needed only when disktype is raid)
     #  gluster_infra_diskcount: 3
     #  # Stripe unit size always in KiB. gluster_infra_diskcount * gluster_infra_stripe_unit_size should be between 1 - 2 MB
