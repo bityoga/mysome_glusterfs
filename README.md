@@ -48,16 +48,7 @@ In order to set up gusterfs cluster we would need a set of host machines. Ansibl
 Currently the automation of VM generation is configured for only Digital Ocean. You can use github project digital_ocean_automation [https://github.com/achak1987/digital_ocean_automation] for spinning up a set of host machines. However, if you already have a set of host machines either spinned up using the above project or any other method, configure the connections with these host machines as described bellow. 
  
 ### Configuring connection to remote machine
-- Please navigate to the file `inventory/hosts_template`
-- It looks as follows:
-```
-[gfscluster]
-clear
-
-
-
-```
-- Rename this file as `inventory/hosts`
+- Please navigate to the file `inventory/hosts`
 - In order the specify the host machines, you need to populate this file `inventory/hosts` with the ip address of these machines. Each line/row in the file would represent a host machine. The root/first line `[gfscluster]` gives a name to the cluster for internal reference in the project and **must not be changed**. Please fill each line thereafter in the format: 
 
 `hostname ansible_host=remote.machine1.ip.adress ansible_python_interpreter="/path/to/python"`
