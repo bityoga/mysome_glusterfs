@@ -20,12 +20,26 @@ python version = 3.7.4 (default, Jul  9 2019, 18:13:23) [Clang 10.0.1 (clang-100
 
 - The remote machines donot need ansible installed. However, all remote hosts **must** have python version `2.7.x` or `above`
 
+### Security Rules
+Make sure the following outbound (**optional**) and inbound rules are established for all the host machines that are part of the cluster.
+
+![alt text](./images/outbound_rules.png)
+
+Note: **incase of inbound rules, ensure that the source is the subnet range specific to your deployment**
+
+![alt text](./images/inbound_rules.png)
+
+
 ## Configuration
 There are very few parameters to be configured currently. All configurations are made inside *group_vars/all.yml*. 
   - **Volume Name**
     - `gluster_cluster_volume` specifies the name of the created glusterfs volume. 
-    - You would need this name and ip address (from `inventory/hosts`) of any one of the machines in order to mount this filesystem into another cluster/system.
-  - **gfs_size**: Size of the initial volume on the report host that you want to add to gluster fs
+  - **Device Path: ** Can be a physical volume (e.g.: /dev/xvdf) or a loop device (e.g.: /dev/loop0). loop device is used when you are in devmode, which means that you are not using a seperate volume, but the same volume where your OS is located
+    - `device_path` specifies the path to to FS to use
+    - `devmode`: Set it to True when there isn't any seperate volume on which you want to setup glusterfs. If you have a seperate volume(e.g.: /dev/xvdf) other than where your OS is located, set this value to False
+
+  - **DEV MODE**: Only set this if **devmode: True**. Sets aside xGB of space on the FS to be used for GlusterFS. If we are using a sperate volume for GlusterFS, it will take the whole volume. Therefore, it is not required to be set when *devmode: False* 
+    - `gfs_size`: Size of the initial volume on the report host that you want to add to gluster fs
 
 ## Defining the remote host machines
 In order to set up gusterfs cluster we would need a set of host machines. Ansible will comunicate with these machines and setup your cluster.

@@ -2,6 +2,7 @@
 # ansible-playbook -v 002.setup_glusterfs_infra.yml -u root
 - hosts: all
   become: yes
+  become_user: root
   gather_facts: yes
 
   pre_tasks:
@@ -17,14 +18,20 @@
           update_cache: yes
           state: present
 
-     - name: "Prep the FS"
+     # This section will execute when "devmode=True"
+     - name: "Prep the FS in devmode"
        shell: "{{item}}"
        loop:
         - "fallocate -l {{gfs_size}} /gfs0"
-        - "losetup /dev/loop0 /gfs0"
-        - "pvcreate /dev/loop0"
-        - "vgcreate firefly /dev/loop0"
-        - "mkfs.ext4 -F /dev/loop0"
+        - "losetup {{device_path}} /gfs0"        
+       when: devmode
+    
+     - name: "Finalize the FS"
+       shell: "{{item}}"
+       loop:
+        - "pvcreate {{device_path}}"
+        - "vgcreate {{vg_name}} {{device_path}}"
+        - "mkfs.ext4 -F {{device_path}}"
 
   # See https://github.com/gluster/gluster-ansible-infra for details
   vars:
@@ -51,7 +58,7 @@
       }
 
      gluster_infra_volume_groups:
-       - { vgname: 'firefly', pvname: '/dev/loop0' }
+       - { vgname: 'firefly', pvname: "{{device_path}}" }
      
      # Create thick logical volume
      gluster_infra_thick_lvs:
