@@ -1,10 +1,29 @@
 --- 
 glusterfs_daemon: "glusterd"
-glusterfs_cluster_ips: "{{ groups['gfscluster'] | map('extract', hostvars, ['ansible_host']) | join(',') }}"
+glusterfs_cluster_public_ips: "{{ groups['gfscluster'] | map('extract', hostvars, ['ansible_host']) | join(',') }}"
+#glusterfs_cluster_private_ips: "{{ groups['gfscluster'] | map('extract', hostvars, ['ansible_eth0', 'ipv4', 'address']) | join(',') }}"
 glusterd_version: "7"
 # gluster volume
 gluster_cluster_volume: "gv0"
 # gluster cluster ips
-gluster_cluster_hosts: "{{ glusterfs_cluster_ips.split(',') }}"
+gluster_cluster_hosts: "{{ glusterfs_cluster_public_ips.split(',') }}"
+#gluster_cluster_private_hosts: "{{ glusterfs_cluster_private_ips.split(',') }}"
+
+
+
+# Volume group name
+vg_name: "firefly"
+
+# Device Path. Can be a physical volume (e.g.: /dev/xvdf) or a loop device (e.g.: /dev/loop0). 
+# loop device is used when you are in devmode, which means that you are not using a seperate volume, 
+# but the same volume where your OS is located
+device_path: "/dev/loop9"
+
+# Set it to True when there isn't any seperate volume on which you want to setup glusterfs
+# If you have a seperate volume(e.g.: /dev/xvdf) other than where your OS is located, set this value to False
+devmode: True
+
+########## SET THESE VALUES WHEN "devmode=True" ##########
 # Size in GB for the initial GFS volume
-gfs_size: 12G
+gfs_size: 3G
+###########################################################
