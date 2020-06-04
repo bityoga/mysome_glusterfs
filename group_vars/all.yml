@@ -17,13 +17,13 @@ vg_name: "firefly"
 # Device Path. Can be a physical volume (e.g.: /dev/xvdf) or a loop device (e.g.: /dev/loop0). 
 # loop device is used when you are in devmode, which means that you are not using a seperate volume, 
 # but the same volume where your OS is located
-device_path: "/dev/xvdf"
+device_path: "/dev/loop9"
 
 # Set it to True when there isn't any seperate volume on which you want to setup glusterfs
 # If you have a seperate volume(e.g.: /dev/xvdf) other than where your OS is located, set this value to False
-devmode: False
+devmode: True
 
 ########## SET THESE VALUES WHEN "devmode=True" ##########
 # Size in GB for the initial GFS volume
-gfs_size: 1G
+gfs_size: 3G
 ###########################################################
