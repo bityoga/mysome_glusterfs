@@ -27,3 +27,7 @@ devmode: True
 # Size in GB for the initial GFS volume
 gfs_size: 3G
 ###########################################################
+
+# Gluster cluster brick mount location
+
+gluster_cluster_brick_mount_point : "/mnt/brick1"

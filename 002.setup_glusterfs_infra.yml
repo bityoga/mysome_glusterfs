@@ -18,6 +18,52 @@
           update_cache: yes
           state: present
 
+
+     - name: "Umount old brick mount point"
+       shell: "umount -lf {{gluster_cluster_brick_mount_point}}"
+       ignore_errors: True
+
+     - name: "vgremove firefly"
+       shell: "vgremove -ff firefly"
+       ignore_errors: True
+
+     - name: "pvremove loop"
+       shell: "pvremove -ff {{device_path}}"
+       ignore_errors: True
+     - name: "dmsetup remove_all"
+       shell: "dmsetup remove_all"
+       ignore_errors: True
+
+     - name: "Detach Loop device"
+       shell: "losetup -d {{device_path}}"
+       ignore_errors: True
+
+     - name: "Remove /gfs0"
+       shell: "rm -f /gfs0"
+       ignore_errors: True
+
+     - name: "dmsetup remove_all"
+       shell: "dmsetup remove_all"
+       ignore_errors: True
+
+     - name: "Remove Loop Device"
+       shell: "rm -f {{device_path}}"
+       ignore_errors: True
+
+     - name: "Create Loop Device"
+       shell: "mknod -m660 {{device_path}} b 7 8"
+       ignore_errors: True
+
+     - name: "Set Loop Device Ownership"
+       shell: "chown root:disk {{device_path}}"
+       ignore_errors: True
+
+    #  - name: "Check and Create a loop device for glusterfs"
+    #    shell: "rm -f {{device_path}} && sudo mknod -m660 {{device_path}} b 7 8 && sudo chown root:disk {{device_path}}"
+
+    #  - name: "Remove old setup"
+    #    shell: "umount /mnt/brick1 && vgremove -f firefly && pvremove -f /dev/{{device_path}} && losetup -d /dev/{{device_path}} && rm -f /gfs0 && dmsetup remove_all"
+
      # This section will execute when "devmode=True"
      - name: "Prep the FS in devmode"
        shell: "{{item}}"
@@ -31,7 +77,7 @@
        loop:
         - "pvcreate {{device_path}}"
         - "vgcreate {{vg_name}} {{device_path}}"
-        - "mkfs.ext4 -F {{device_path}}"
+        #- "mkfs.ext4 -F {{device_path}}"
 
   # See https://github.com/gluster/gluster-ansible-infra for details
   vars:
@@ -66,7 +112,7 @@
 
      # Mount the devices
      gluster_infra_mount_devices:
-       - { path: '/mnt/brick1', vgname: 'firefly', lvname: 'thick_lv_1' }       
+       - { path: '{{gluster_cluster_brick_mount_point}}', vgname: 'firefly', lvname: 'thick_lv_1' }       
 
   roles:
      - gluster.infra
