@@ -22,8 +22,8 @@
      - name: "Prep the FS in devmode"
        shell: "{{item}}"
        loop:
-        - "fallocate -l {{gfs_size}} /gfs0"
-        - "losetup {{device_path}} /gfs0"        
+        - "fallocate -l {{gfs_size}} /{{gluster_cluster_volume}}"
+        - "losetup {{device_path}} /{{gluster_cluster_volume}}"        
        when: devmode
     
      - name: "Finalize the FS"
