@@ -35,6 +35,8 @@
 
   # See https://github.com/gluster/gluster-ansible-infra for details
   vars:
+    gfs_size: 1G
+    device_path: "/dev/xvdf"
     # Set a disk type, Options: JBOD, RAID6, RAID10
      gluster_infra_disktype: JBOD
     #  # RAID6 and RAID10 diskcount (Needed only when disktype is raid)
