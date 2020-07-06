@@ -33,7 +33,6 @@ Note: **incase of inbound rules, ensure that the source is the subnet range spec
 ## Configuration
 There are very few parameters to be configured currently. All configurations are made inside *group_vars/all.yml*. 
   - **Volume Name**
-    - `gluster_cluster_volume` specifies the name of the created glusterfs volume. 
   - **Device Path: ** Can be a physical volume (e.g.: /dev/xvdf) or a loop device (e.g.: /dev/loop0). loop device is used when you are in devmode, which means that you are not using a seperate volume, but the same volume where your OS is located
     - `device_path` specifies the path to to FS to use
     - `devmode`: Set it to True when there isn't any seperate volume on which you want to setup glusterfs. If you have a seperate volume(e.g.: /dev/xvdf) other than where your OS is located, set this value to False
