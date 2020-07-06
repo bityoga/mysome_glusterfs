@@ -68,5 +68,5 @@
      gluster_infra_mount_devices:
        - { path: '/mnt/brick1', vgname: 'firefly', lvname: 'thick_lv_1' }       
 
-  roles:
-     - gluster.infra
+#   roles:
+#      - gluster.infra
