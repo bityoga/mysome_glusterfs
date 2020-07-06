@@ -40,6 +40,7 @@
      device_path: "/dev/xvdh"
      vg_name: "firefly"
      gluster_cluster_volume: gfs0
+     gfs_size: 1G
     #  # RAID6 and RAID10 diskcount (Needed only when disktype is raid)
     #  gluster_infra_diskcount: 3
     #  # Stripe unit size always in KiB. gluster_infra_diskcount * gluster_infra_stripe_unit_size should be between 1 - 2 MB
