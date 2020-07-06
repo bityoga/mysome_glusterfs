@@ -50,6 +50,6 @@
     - name: Mount Gluster volume
       mount:
         path: /var/persistantfs
-        src: "{{ gluster_cluster_hosts[0] }}:/{{gluster_cluster_volume}}"
+        src: "{{gluster_mount_server}}:/{{gluster_cluster_volume}}"
         fstype: glusterfs
         state: mounted
