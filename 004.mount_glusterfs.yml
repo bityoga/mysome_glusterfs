@@ -13,12 +13,6 @@
   tasks:
     - debug: var=ansible_all_ipv4_addresses
     - debug: var=ansible_default_ipv4.address
-
-    - name: create file after success
-      file:
-        path: "/tmp/{{ success_file_name }}"
-        state: touch
-       when: not stat_result.stat.exists  
        
        
     # Install glusterfs-client
@@ -70,4 +64,11 @@
         src: "{{gluster_mount_server}}:/{{gluster_cluster_volume}}"
         fstype: glusterfs
         state: mounted
-       when: not stat_result.stat.exists          
+       when: not stat_result.stat.exists     
+       
+       
+    - name: create file after success
+      file:
+        path: "/tmp/{{ success_file_name }}"
+        state: touch
+      when: not stat_result.stat.exists         
