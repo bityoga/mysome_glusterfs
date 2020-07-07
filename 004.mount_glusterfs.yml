@@ -4,28 +4,37 @@
   become: yes
   become_user: root
   gather_facts: True
+  vars:
+    success_file_name: 004.mount_glusterfs_success
 
   tasks:
+    - name: create file after success
+      file:
+        path: "/tmp/{{ success_file_name }}"
+        state: touch
+       when: not stat_result.stat.exists  
+       
+       
     # Install glusterfs-client
     - name: Add an Apt signing key, uses whichever key is at the URL
       apt_key:
         url: http://download.gluster.org/pub/gluster/glusterfs/{{ glusterd_version }}/rsa.pub
         state: present
-      when: ansible_os_family == 'Debian'
+      when: ansible_os_family == 'Debian' and not stat_result.stat.exists
 
     - name: Add new apt source
       apt_repository:
         repo: deb https://download.gluster.org/pub/gluster/glusterfs/{{ glusterd_version }}/LATEST/Debian/stretch/amd64/apt stretch main
         filename: gluster.list
         state: present
-      when: ansible_os_family == 'Debian'
+      when: ansible_os_family == 'Debian' and not stat_result.stat.exists
 
       # Install glusterfs-client
     - name: Add an RPM signing key, uses whichever key is at the URL
       rpm_key:
         key: http://download.gluster.org/pub/gluster/glusterfs/{{ glusterd_version }}/rsa.pub
         state: present
-      when: ansible_os_family == 'RedHat'
+      when: ansible_os_family == 'RedHat' and not stat_result.stat.exists
 
     - name: Add new yum source
       yum_repository:
@@ -33,18 +42,20 @@
         description: glusterfs YUM repo
         baseurl: https://download.gluster.org/pub/gluster/glusterfs/{{ glusterd_version }}/LATEST/RHEL/glusterfs-rhel8.repo
         state: present
-      when: ansible_os_family == 'RedHat'
+      when: ansible_os_family == 'RedHat' and not stat_result.stat.exists  
 
     - name: Update repositories cache and install "glusterfs-client" package
       package:
         name: glusterfs-client
         update_cache: yes
+       when: not stat_result.stat.exists          
 
     # create the directory before mounting the volume
     - file:
         path: /var/persistantfs
         state: directory
         mode: 0755
+       when: not stat_result.stat.exists          
 
     # Mount the volume on /root/myfiles
     - name: Mount Gluster volume
@@ -53,3 +64,4 @@
         src: "{{gluster_mount_server}}:/{{gluster_cluster_volume}}"
         fstype: glusterfs
         state: mounted
+       when: not stat_result.stat.exists          
