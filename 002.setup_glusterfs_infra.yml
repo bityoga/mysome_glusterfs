@@ -37,7 +37,7 @@
   vars:
     # Set a disk type, Options: JBOD, RAID6, RAID10
      gluster_infra_disktype: JBOD
-     device_path: "/dev/xvda1"
+     device_path: "/dev/xvdh"
      vg_name: "firefly"
      gluster_cluster_volume: gfs0
      gfs_size: 1G
