@@ -8,6 +8,12 @@
   # Install glusterfs-server before running the tasks of
   # gluster.cluster role
   pre_tasks:
+     - name: Check if done
+       stat:
+        path: "/tmp/{{ success_file_name }}"
+      register: stat_result
+      
+      
     - name: Add an Apt signing key, uses whichever key is at the URL
       apt_key:
         url: http://download.gluster.org/pub/gluster/glusterfs/{{ glusterd_version }}/rsa.pub
@@ -51,8 +57,16 @@
     - name: Pause for 5 seconds to build  cache
       pause:
         seconds: 5
+        
+        
+    - name: create file after success
+      file:
+        path: "/tmp/{{ success_file_name }}"
+        state: touch
+       when: not stat_result.stat.exists             
   
   vars:
+    success_file_name: 003.setup_glusterfs_cluster_sucess
     # The transport type for the volume (tcp / rdma / tcp,rdma)
     gluster_cluster_transport: 'tcp,rdma'
     # Force option will be used while creating a volume, any warnings will be suppressed.
