@@ -6,10 +6,11 @@
   gather_facts: yes
 
   pre_tasks:  
-    - name: Check if playbook is done
-      stat:
+    
+     - name: Check if playbook is done
+       stat:
         path: "/tmp/{{ success_file_name }}"
-      register: stat_result   
+       register: stat_result   
     
      - name: Update repositories cache and install "xfsprogs" package
        package:
