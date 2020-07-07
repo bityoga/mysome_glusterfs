@@ -7,10 +7,11 @@
 
   pre_tasks:
   
-     - name: Check if done
-       stat:
-        path: /tmp/002.setup_glusterfs_infra_sucess
-      register: stat_result
+    - name: create file after success
+      file:
+        path: "/tmp/{{ success_file_name }}"
+        state: touch
+       when: not stat_result.stat.exists          
     
     
      - name: Update repositories cache and install "xfsprogs" package
@@ -46,13 +47,14 @@
         
     - name: create file after success
       file:
-        path: /tmp/002.setup_glusterfs_infra_sucess
+        path: "/tmp/{{ success_file_name }}"
         state: touch
-       when: not stat_result.stat.exists        
+       when: not stat_result.stat.exists  
     
 
   # See https://github.com/gluster/gluster-ansible-infra for details
   vars:
+    success_file_name: 002.setup_glusterfs_infra_sucess
     # Set a disk type, Options: JBOD, RAID6, RAID10
      gluster_infra_disktype: JBOD
      device_path: "/dev/xvdh"
