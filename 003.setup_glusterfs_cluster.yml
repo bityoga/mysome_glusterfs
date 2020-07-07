@@ -83,5 +83,5 @@
     # Replica count while creating a volume. Currently replica 2 and replica 3 are supported.
     #gluster_cluster_replica_count: '2'
 
-#   roles:
-#      - gluster.cluster
+  roles:
+     - gluster.cluster

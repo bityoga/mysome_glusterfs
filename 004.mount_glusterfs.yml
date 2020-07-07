@@ -7,13 +7,15 @@
   vars:
     success_file_name: 004.mount_glusterfs_success
     glusterd_version: "7"
-    gluster_mount_server: " {{ hostvars[groups['master'][0]]['ansible_all_ipv4_addresses'][0] }} "
+    #gluster_mount_server: " {{ hostvars[groups['master'][0]]['ansible_all_ipv4_addresses'][0] }} "
+    #Private ip here
+    gluster_mount_server: 172.31.0.171
     gluster_cluster_volume: gfs0
 
   tasks:
-    - debug: 
-        var: hostvars[groups['master'][0]]['ansible_all_ipv4_addresses'][0]
-        var: gluster_mount_server
+    # - debug: 
+    #     var: hostvars[groups['master'][0]]['ansible_all_ipv4_addresses'][0]
+    #     var: gluster_mount_server
        
        
     - name: Check if playbook is done

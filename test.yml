@@ -1,12 +1,13 @@
 ---
     # ansible-playbook -v 002.setup_glusterfs_infra.yml -u root
     - hosts: all
+      gather_facts: no
       vars:
-        glusterfs_cluster_private_ips: "{{ansible_play_hosts | map('extract', hostvars, ['ansible_eth0', 'ipv4', 'address']) | join(',') }}"
+        #glusterfs_cluster_private_ips: "{{ansible_play_hosts | map('extract', hostvars, ['ansible_eth0', 'ipv4', 'address']) | join(',') }}"
         #gluster_cluster_private_hosts: "{{ glusterfs_cluster_private_ips.split(',') }}"
       tasks:
         - debug:
-            msg: "{{ gluster_cluster_private_hosts if gluster_cluster_private_hosts is defined and gluster_cluster_private_hosts | length > 0 else gluster_cluster_hosts}}"
+        
 
             #msg: "{{test_myscript.stderr | length > 0}}" 
             #msg: "{{'NodePort' if 1 == 1 else gluster_cluster_hosts}}"
