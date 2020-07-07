@@ -12,7 +12,7 @@
 
   tasks:
     - debug: 
-        var: hostvars[groups['master'][0]]['ansible_all_ipv4_addresses']
+        var: hostvars[groups['master'][0]]['ansible_all_ipv4_addresses'][0]
        
        
     - name: Check if playbook is done
