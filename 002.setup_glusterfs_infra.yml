@@ -43,11 +43,11 @@
        when: not stat_result.stat.exists        
         
         
-    - name: create file after success
-      file:
+     - name: create file after success
+       file:
         path: "/tmp/{{ success_file_name }}"
         state: touch
-      when: not stat_result.stat.exists  
+       when: not stat_result.stat.exists  
     
 
   # See https://github.com/gluster/gluster-ansible-infra for details
