@@ -7,12 +7,11 @@
   vars:
     success_file_name: 004.mount_glusterfs_success
     glusterd_version: "7"
-    gluster_mount_server: "172.31.1.39"
+    gluster_mount_server: "XXXXX"
     gluster_cluster_volume: gfs0
 
   tasks:
-    - debug: var=ansible_all_ipv4_addresses
-    - debug: var=ansible_default_ipv4.address
+    - debug: var=hostvars['master']
        
        
     - name: Check if playbook is done
