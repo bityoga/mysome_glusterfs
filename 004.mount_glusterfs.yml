@@ -53,14 +53,14 @@
       package:
         name: glusterfs-client
         update_cache: yes
-       when: not stat_result.stat.exists          
+      when: not stat_result.stat.exists          
 
     # create the directory before mounting the volume
     - file:
         path: /var/persistantfs
         state: directory
         mode: 0755
-       when: not stat_result.stat.exists          
+      when: not stat_result.stat.exists          
 
     # Mount the volume on /root/myfiles
     - name: Mount Gluster volume
@@ -69,7 +69,7 @@
         src: "{{gluster_mount_server}}:/{{gluster_cluster_volume}}"
         fstype: glusterfs
         state: mounted
-       when: not stat_result.stat.exists     
+      when: not stat_result.stat.exists     
        
        
     - name: create file after success
