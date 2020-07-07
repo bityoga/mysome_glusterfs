@@ -18,28 +18,27 @@
       apt_key:
         url: http://download.gluster.org/pub/gluster/glusterfs/{{ glusterd_version }}/rsa.pub
         state: present
-      when: ansible_os_family == 'Debian'
+      when: ansible_os_family == 'Debian' and not stat_result.stat.exists             
     
     - name: Add an RPM signing key, uses whichever key is at the URL
       rpm_key:
         key: http://download.gluster.org/pub/gluster/glusterfs/{{ glusterd_version }}/rsa.pub
         state: present
-      when: ansible_os_family == 'RedHat'
+      when: ansible_os_family == 'RedHat' and not stat_result.stat.exists             
 
     - name: Add new apt source
-      
       apt_repository:
         repo: ppa:gluster/glusterfs-{{ glusterd_version }}
         filename: gluster.list
         state: present
-      when: ansible_os_family == 'Debian'
+      when: ansible_os_family == 'Debian' and not stat_result.stat.exists             
     
     - name: Add yum apt source
       yum_repository:
         name: glusterfs
         description: glusterfs YUM repo
         baseurl: https://download.gluster.org/pub/gluster/glusterfs/{{ glusterd_version }}/LATEST/RHEL/glusterfs-rhel8.repo
-      when: ansible_os_family == 'RedHat'
+      when: ansible_os_family == 'RedHat' and not stat_result.stat.exists             
 
     - name: Update repositories cache and install "glusterfs-server" package
       package:
@@ -47,23 +46,27 @@
         update_cache: yes
       loop:
         - "glusterfs-server"
+      when: not stat_result.stat.exists                     
         
     - name: Set python path symlink
       file:
         src: "/usr/bin/python3"
         dest: "/usr/bin/python"
         state: link
+      when: not stat_result.stat.exists             
+      
     # Pause for 5 seconds to build  cache.
     - name: Pause for 5 seconds to build  cache
       pause:
         seconds: 5
+      when: not stat_result.stat.exists               
         
         
     - name: create file after success
       file:
         path: "/tmp/{{ success_file_name }}"
         state: touch
-       when: not stat_result.stat.exists             
+      when: not stat_result.stat.exists             
   
   vars:
     success_file_name: 003.setup_glusterfs_cluster_sucess
