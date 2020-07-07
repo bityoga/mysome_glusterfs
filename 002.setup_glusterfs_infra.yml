@@ -52,8 +52,8 @@
 
   # See https://github.com/gluster/gluster-ansible-infra for details
   vars:
-    success_file_name: 002.setup_glusterfs_infra_sucess
-    # Set a disk type, Options: JBOD, RAID6, RAID10
+     success_file_name: 002.setup_glusterfs_infra_sucess
+     # Set a disk type, Options: JBOD, RAID6, RAID10
      gluster_infra_disktype: JBOD
      device_path: "/dev/xvdh"
      vg_name: "firefly"
