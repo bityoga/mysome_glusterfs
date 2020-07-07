@@ -11,7 +11,7 @@
      - name: Check if done
        stat:
         path: "/tmp/{{ success_file_name }}"
-      register: stat_result
+       register: stat_result
       
       
     - name: Add an Apt signing key, uses whichever key is at the URL
