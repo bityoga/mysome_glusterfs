@@ -6,8 +6,14 @@
   gather_facts: True
   vars:
     success_file_name: 004.mount_glusterfs_success
+    glusterd_version: "7"
+    gluster_mount_server: "172.31.1.39"
+    gluster_cluster_volume: gfs0
 
   tasks:
+    - debug: var=ansible_all_ipv4_addresses
+    - debug: var=ansible_default_ipv4.address
+
     - name: create file after success
       file:
         path: "/tmp/{{ success_file_name }}"
