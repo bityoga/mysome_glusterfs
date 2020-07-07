@@ -7,24 +7,24 @@
 
   pre_tasks:  
     
-     - name: Check if playbook is done
-       stat:
-        path: "/tmp/{{ success_file_name }}"
-       register: stat_result   
+#      - name: Check if playbook is done
+#        stat:
+#         path: "/tmp/{{ success_file_name }}"
+#        register: stat_result   
     
      - name: Update repositories cache and install "xfsprogs" package
        package:
           name: xfsprogs
           update_cache: yes
           state: present
-       when: not stat_result.stat.exists
+#        when: not stat_result.stat.exists
 
      - name: Ensure that the lvm packages are installed on your target system
        package:
           name: lvm2
           update_cache: yes
           state: present
-       when: not stat_result.stat.exists          
+#        when: not stat_result.stat.exists          
 
      # This section will execute when "devmode=True"
      - name: "Prep the FS in devmode"
@@ -32,7 +32,7 @@
        loop:
         - "fallocate -l {{gfs_size}} /{{gluster_cluster_volume}}"
         - "losetup {{device_path}} /{{gluster_cluster_volume}}"        
-       when: devmode and not stat_result.stat.exists
+#        when: devmode and not stat_result.stat.exists
     
      - name: "Finalize the FS"
        shell: "{{item}}"
@@ -40,14 +40,14 @@
         - "pvcreate {{device_path}}"
         - "vgcreate {{vg_name}} {{device_path}}"
         - "mkfs.ext4 -F {{device_path}}"
-       when: not stat_result.stat.exists        
+#        when: not stat_result.stat.exists        
         
         
-     - name: create file after success
-       file:
-        path: "/tmp/{{ success_file_name }}"
-        state: touch
-       when: not stat_result.stat.exists  
+#      - name: create file after success
+#        file:
+#         path: "/tmp/{{ success_file_name }}"
+#         state: touch
+#        when: not stat_result.stat.exists  
     
 
   # See https://github.com/gluster/gluster-ansible-infra for details
