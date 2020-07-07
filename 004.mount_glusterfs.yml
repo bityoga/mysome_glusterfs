@@ -12,7 +12,7 @@
 
   tasks:
     - debug: 
-        var: hostvars[hostvars['groups']['master'][0]]
+        var: hostvars['groups']['master'][0]
        
        
     - name: Check if playbook is done
