@@ -15,6 +15,11 @@
     - debug: var=ansible_default_ipv4.address
        
        
+    - name: Check if playbook is done
+      stat:
+        path: "/tmp/{{ success_file_name }}"
+      register: stat_result          
+       
     # Install glusterfs-client
     - name: Add an Apt signing key, uses whichever key is at the URL
       apt_key:
