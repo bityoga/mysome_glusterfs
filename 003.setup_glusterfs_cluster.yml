@@ -59,9 +59,10 @@
     gluster_cluster_force: 'yes'
     # Brick paths on servers. Multiple brick paths can be separated by commas.
     gluster_cluster_bricks: '/mnt/brick1'
+    glusterd_version: "7"
 
     # Replica count while creating a volume. Currently replica 2 and replica 3 are supported.
     #gluster_cluster_replica_count: '2'
 
-  roles:
-     - gluster.cluster
+#   roles:
+#      - gluster.cluster
