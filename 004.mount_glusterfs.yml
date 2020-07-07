@@ -12,7 +12,7 @@
 
   tasks:
     - debug: 
-        var:   [hostvars[groups['master'][0]]['ansible_host']]
+        var: hostvars[groups['master'][0]]
        
        
     - name: Check if playbook is done
