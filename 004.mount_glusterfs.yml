@@ -11,7 +11,8 @@
     gluster_cluster_volume: gfs0
 
   tasks:
-    - debug: var=hostvars
+    - debug: 
+        var: hostvars
        
        
     - name: Check if playbook is done
