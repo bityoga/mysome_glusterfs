@@ -25,7 +25,7 @@ device_path: "/dev/loop13
 # If you have a seperate volume(e.g.: /dev/xvdf) other than where your OS is located, set this value to False
 devmode: True
 
-########## SET THESE VALUES WHEN "devmode=True" ##########
+# SET THESE VALUES WHEN "devmode=True"
 # Size in GB for the initial GFS volume
 gfs_size: 1G
-###########################################################
+# ----
