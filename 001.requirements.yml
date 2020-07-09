@@ -3,7 +3,6 @@
   gather_facts: no
   hosts: localhost
   become: yes
-  become_user: root
   tasks:
     - name: "Install Ansible roles for GlusterFS"
       shell: "ansible-galaxy install -r requirements.yml"
