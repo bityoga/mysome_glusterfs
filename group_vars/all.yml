@@ -8,7 +8,7 @@ gluster_cluster_hosts: "{{ glusterfs_cluster_public_ips.split(',') }}"
 #gluster_cluster_private_hosts: "{{ glusterfs_cluster_private_ips.split(',') }}"
 
 # IP address of a node in a gluster pool that can be used by a client to mount.
-gluster_mount_server: "172.31.1.39"
+gluster_mount_server: "52.211.227.76"
 # Name of the volume.
 gluster_cluster_volume: gfs0
 
@@ -19,11 +19,11 @@ vg_name: "firefly"
 # loop device is used when you are in devmode, which means that you are not using a seperate volume, 
 # but the same volume where your OS is located
 #device_path: "/dev/xvdf"
-device_path: "/dev/xvdf"
+device_path: "/dev/loop13
 
 # Set it to True when there isn't any seperate volume on which you want to setup glusterfs
 # If you have a seperate volume(e.g.: /dev/xvdf) other than where your OS is located, set this value to False
-devmode: False
+devmode: True
 
 ########## SET THESE VALUES WHEN "devmode=True" ##########
 # Size in GB for the initial GFS volume
