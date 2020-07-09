@@ -2,7 +2,6 @@
 - name: "Installing required ansible galaxy packages"
   gather_facts: no
   hosts: localhost
-  become: yes
   tasks:
     - name: "Install Ansible roles for GlusterFS"
       shell: "ansible-galaxy install -r requirements.yml"
