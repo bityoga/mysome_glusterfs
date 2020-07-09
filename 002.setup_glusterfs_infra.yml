@@ -17,6 +17,13 @@
           name: lvm2
           update_cache: yes
           state: present
+          
+     - name: Ensure that any dependency package(s) are installed
+       pip:
+          name: "{{item}}"
+          state: present 
+       loop:
+         - "jmespath"
 
      # This section will execute when "devmode=True"
      - name: "Prep the FS in devmode"
