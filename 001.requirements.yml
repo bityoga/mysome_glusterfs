@@ -6,4 +6,4 @@
   become_user: semaphore
   tasks:
     - name: "Install Ansible roles for GlusterFS"
-      command: "ansible-galaxy install -r requirements.yml"
+      command: "sh -c 'ansible-galaxy install -r requirements.yml'"
