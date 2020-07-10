@@ -26,21 +26,17 @@
      - name: "pvremove loop"
        shell: "pvremove -ff -y {{device_path}}"
        ignore_errors: True
-       
-     - name: "dmsetup remove_all"
-       shell: "dmsetup remove_all"
-       ignore_errors: True
 
      - name: "Detach Loop device"
        shell: "losetup -d {{device_path}}"
        ignore_errors: True
 
-     - name: "Remove /{{gluster_cluster_volume}}"
-       shell: "rm -f /{{gluster_cluster_volume}}"
-       ignore_errors: True
-
      - name: "dmsetup remove_all"
        shell: "dmsetup remove_all"
+       ignore_errors: True
+
+     - name: "Remove /{{gluster_cluster_volume}}"
+       shell: "rm -f /{{gluster_cluster_volume}}"
        ignore_errors: True
 
     ######################################################################### #
