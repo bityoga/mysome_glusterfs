@@ -7,3 +7,8 @@
   tasks:
     - name: "Install Ansible roles for GlusterFS"
       shell: "ansible-galaxy install -r requirements.yml"
+    - name: "Installing Jmespath through pip3"
+      pip:
+        name: jmespath
+        state: present
+        executable: pip3
