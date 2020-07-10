@@ -8,7 +8,7 @@ gluster_cluster_hosts: "{{ glusterfs_cluster_public_ips.split(',') }}"
 #gluster_cluster_private_hosts: "{{ glusterfs_cluster_private_ips.split(',') }}"
 
 # IP address of a node in a gluster pool that can be used by a client to mount.
-gluster_mount_server: "172.31.12.66"
+gluster_mount_server: "172.31.2.250"
 # Name of the volume.
 gluster_cluster_volume: gfs0
 
