@@ -7,7 +7,7 @@
   tasks:
     # ### This section will unmount and remove previous mounts, if any ### #
      - name: "Umount old brick mount point"
-       shell: "umount -lf {{mount_point}}"
+       shell: "umount -lf /mnt/brick1"
        ignore_errors: True
 
      - name: "vgremove firefly"
