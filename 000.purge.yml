@@ -6,12 +6,12 @@
   gather_facts: yes
   tasks:
     # ### This section will unmount and remove previous mounts, if any ### #
-    - name: Umount the gfs client mount directory, if any
-      shell: "umount -lf {{mount_point}}"
-      ignore_errors: True
+     - name: Umount the gfs client mount directory, if any
+       shell: "umount -lf {{mount_point}}"
+       ignore_errors: True
       
-    - name: Remove the gfs client mount directory, if any
-      file:
+     - name: Remove the gfs client mount directory, if any
+       file:
         path: "{{mount_point}}"
         state: absent
         
