@@ -3,7 +3,7 @@ The current project enables provisioning of Gluster FS [https://www.gluster.org/
 It offers an easily configurable mechanism for initializing and setting up the cluster.
 In the following subsections we present the workflow for you to set it up.
 
-## "ansible-semaphore" Setup Instructions:
+## ansible-semaphore Setup Instructions:
 
 Refer : [ansible-semaphore](/wiki/semaphore_instructions/)
 
