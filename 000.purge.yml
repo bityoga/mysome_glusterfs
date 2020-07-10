@@ -1,5 +1,5 @@
 ---
-# ansible-playbook -v 002.setup_glusterfs_infra.yml -u root
+# ansible-playbook -v 000.purge.yml -u root
 - hosts: all
   become: yes
   become_user: root
