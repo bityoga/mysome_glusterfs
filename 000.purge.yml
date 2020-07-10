@@ -34,15 +34,4 @@
        shell: "dmsetup remove_all"
        ignore_errors: True
 
-     - name: "Remove Loop Device"
-       shell: "rm -f {{device_path}}"
-       ignore_errors: True
-       
-     - name: "Create Loop Device"
-       shell: "mknod -m660 {{device_path}} b 7 {{device_path[-1]}}"
-       ignore_errors: True
-
-     - name: "Set Loop Device Ownership"
-       shell: "chown root:disk {{device_path}}"
-       ignore_errors: True
     ######################################################################### #
