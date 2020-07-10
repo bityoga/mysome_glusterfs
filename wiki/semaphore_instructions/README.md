@@ -19,11 +19,11 @@ Once ansible-semaphore is installed, you can verify it by accessing its url.
 - **3) Update Inventory** - Click "Inventory" from the side-menu and click "create inventory" on top right corner
   - Create two inventories for **Remote machines** and **localhost** using the **Remote Machines ssh keys** created in step 1
   
-  **Remote machine inventory example**
+  **Remote machine inventory example :**
   
   ![alt text](../../images/semaphore_3_create_remote_inventory.png)
   
-  **localhost inventory example**
+  **localhost inventory example :**
   
   ![alt text](../../images/semaphore_3_localhost_inventory.png)
   
