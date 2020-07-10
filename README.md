@@ -3,6 +3,10 @@ The current project enables provisioning of Gluster FS [https://www.gluster.org/
 It offers an easily configurable mechanism for initializing and setting up the cluster.
 In the following subsections we present the workflow for you to set it up.
 
+## "ansible-semaphore" Setup Instructions:
+
+Refer : [ansible-semaphore](/wiki/semaphore_instructions/)
+
 ## Pre-requisites: 
 - Ensure that you have installed ansible version 2.9.x on your local machine. Please see [https://www.ansible.com/] for further details on installing ansible on your local machine.
 Once ensible is installed, you can verify its version using the command `ansible --version` on you bash shell. you should receive an output such as this:
