@@ -73,6 +73,7 @@ Setting up of glusterfs requires the following steps. Creating th infrastructure
 - Playbook: `000.purge.yml`
   - Execute: `ansible-playbook -v 000.purge.yml -u root`
   - Purges all existing glusterfs setup for a fresh install
+  - Ignore all the warnings while running this playbook. Warnings may vary depending upon the progress in the deployment stage.
 - Playbook: `001.requirements.yml`
   - Execute: `ansible-playbook -v 001.requirements.yml -u root`
   - Installs required ansible galaxy packages in the machine(localhost) which runs the ansible playbooks
