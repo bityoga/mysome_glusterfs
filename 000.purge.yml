@@ -6,37 +6,44 @@
   gather_facts: yes
   tasks:
     # ### This section will unmount and remove previous mounts, if any ### #
-     - name: Umount the gfs client mount directory, if any
-       shell: "umount -lf {{mount_point}}"
-       ignore_errors: True
-      
-     - name: Remove the gfs client mount directory, if any
-       file:
+    - name: Umount the gfs client mount directory, if any
+      shell: "umount -lf {{mount_point}}"
+      ignore_errors: True
+
+    - name: Remove the gfs client mount directory, if any
+      file:
         path: "{{mount_point}}"
         state: absent
-        
-     - name: "Umount old brick mount point"
-       shell: "umount -lf /mnt/brick1"
-       ignore_errors: True
 
-     - name: "vgremove firefly"
-       shell: "vgremove -ff firefly"
-       ignore_errors: True
+    - name: "Umount old brick mount point"
+      shell: "umount -lf /mnt/brick1"
+      ignore_errors: True
 
-     - name: "pvremove loop"
-       shell: "pvremove -ff -y {{device_path}}"
-       ignore_errors: True
+    - name: "Stop glusterfs volume if running"
+      shell: "echo y | sudo gluster volume stop {{gluster_cluster_volume}}"
+      ignore_errors: True
 
-     - name: "Detach Loop device"
-       shell: "losetup -d {{device_path}}"
-       ignore_errors: True
+    - name: "Delete glusterfs volume"
+      shell: "echo y | sudo gluster volume delete {{gluster_cluster_volume}}"
+      ignore_errors: True
 
-     - name: "dmsetup remove_all"
-       shell: "dmsetup remove_all"
-       ignore_errors: True
+    - name: "vgremove firefly"
+      shell: "vgremove -ff firefly"
+      ignore_errors: True
 
-     - name: "Remove /{{gluster_cluster_volume}}"
-       shell: "rm -f /{{gluster_cluster_volume}}"
-       ignore_errors: True
+    - name: "pvremove loop"
+      shell: "pvremove -ff -y {{device_path}}"
+      ignore_errors: True
 
+    - name: "Detach Loop device"
+      shell: "losetup -d {{device_path}}"
+      ignore_errors: True
+
+    - name: "dmsetup remove_all"
+      shell: "dmsetup remove_all"
+      ignore_errors: True
+
+    - name: "Remove /{{gluster_cluster_volume}}"
+      shell: "rm -f /{{gluster_cluster_volume}}"
+      ignore_errors: True
     ######################################################################### #
