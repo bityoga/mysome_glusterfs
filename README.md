@@ -66,6 +66,12 @@ gfs2 ansible_host=157.245.79.195  ansible_python_interpreter="/usr/bin/python3"
 ## Setting up glusterfs
 Setting up of glusterfs requires the following steps. Creating th infrastructure with all dependencies installed and starting the gluster services in all the host machines. Finally, there is also mounting the point, but it is required only at client system that uses this gluster cluster. Therefore the mounting is not conducted for this cluster and the playbook is just shown as an example on how to mount this cluster into another system.
 
+- Playbook: `000.purge.yml`
+  - Execute: `ansible-playbook -v 000.purge.yml -u root`
+  - Purges all existing glusterfs setup for a fresh install
+- Playbook: `001.requirements.yml`
+  - Execute: `ansible-playbook -v 001.requirements.yml -u root`
+  - Installs required ansible galaxy packages in the machine(localhost) which runs the ansible playbooks
 - Playbook: `002.setup_glusterfs_infra.yml`
   - Execute: `ansible-playbook -v 002.setup_glusterfs_infra.yml -u root`
   - Sets up the remote host machines to join a glusterfs cluster
