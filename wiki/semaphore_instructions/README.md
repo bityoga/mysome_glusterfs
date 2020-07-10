@@ -1,6 +1,6 @@
 # Semaphore config instructions
 ## Pre-requisites: 
-- Ensure that ansible-semaphore is set up. Please see [https://github.com/ansible-semaphore/semaphore] for further details on setting up ansible-semaphore.
+- Ensure that **ansible-semaphore is set up**. Please see [https://github.com/ansible-semaphore/semaphore] for further details on setting up ansible-semaphore.
 Once ansible-semaphore is installed, you can verify it by accessing its url.
 
 ## ansible-semaphore Instructions:
