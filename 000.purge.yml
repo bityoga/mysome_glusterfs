@@ -1,0 +1,44 @@
+---
+# ansible-playbook -v 002.setup_glusterfs_infra.yml -u root
+- hosts: all
+  become: yes
+  become_user: root
+  gather_facts: yes
+  tasks:
+    # ### This section will unmount and remove previous mounts, if any ### #
+     - name: "Umount old brick mount point"
+       shell: "umount -lf {{mount_point}}"
+       ignore_errors: True
+
+     - name: "vgremove firefly"
+       shell: "vgremove -ff firefly"
+       ignore_errors: True
+
+     - name: "pvremove loop"
+       shell: "pvremove -ff -y {{device_path}}"
+       ignore_errors: True
+       
+     - name: "dmsetup remove_all"
+       shell: "dmsetup remove_all"
+       ignore_errors: True
+
+     - name: "Detach Loop device"
+       shell: "losetup -d {{device_path}}"
+       ignore_errors: True
+
+     - name: "Remove /{{gluster_cluster_volume}}"
+       shell: "rm -f /{{gluster_cluster_volume}}"
+       ignore_errors: True
+
+     - name: "dmsetup remove_all"
+       shell: "dmsetup remove_all"
+       ignore_errors: True
+
+     - name: "Remove Loop Device"
+       shell: "rm -f {{device_path}}"
+       ignore_errors: True
+
+     - name: "Set Loop Device Ownership"
+       shell: "chown root:disk {{device_path}}"
+       ignore_errors: True
+    ######################################################################### #

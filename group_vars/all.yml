@@ -21,6 +21,9 @@ vg_name: "firefly"
 #device_path: "/dev/xvdf"
 device_path: "/dev/loop13"
 
+# Mount point, the gfs will be mounted to this point on each client
+mount_point: "/var/persistantfs"
+
 # Set it to True when there isn't any seperate volume on which you want to setup glusterfs
 # If you have a seperate volume(e.g.: /dev/xvdf) other than where your OS is located, set this value to False
 devmode: True
