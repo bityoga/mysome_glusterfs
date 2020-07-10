@@ -39,6 +39,14 @@
       package:
         name: glusterfs-client
         update_cache: yes
+        
+    - name: Umount the directory
+      shell: "umount -lf {{mount_point}}"
+      ignore_errors: True
+      
+    - file:
+        path: "{{mount_point}}"
+        state: absent
 
     # create the directory before mounting the volume
     - file:
