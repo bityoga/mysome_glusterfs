@@ -5,7 +5,11 @@ In the following subsections we present the workflow for you to set it up.
 
 ## ansible-semaphore Setup Instructions:
 
-Refer : [ansible-semaphore](/wiki/semaphore_instructions/)
+These instructions is to be used only when utilising ansible-semaphore for deployment. 
+
+**Refer :** [ansible-semaphore-setup-instructions](/wiki/semaphore_instructions/)
+
+For normal deployment process through terminal, ignore this and follow the instructions below.
 
 ## Pre-requisites: 
 - Ensure that you have installed ansible version 2.9.x on your local machine. Please see [https://www.ansible.com/] for further details on installing ansible on your local machine.
