@@ -34,10 +34,16 @@ Once ansible-semaphore is installed, you can verify it by accessing its url.
 - **4) Create Task Templates** - Click "Task Templates" from the side-menu and click "new template" on top right corner
   - Create 5 Task Templates for the 5 playbooks as shown in the figure below:
   
+  **For 001.requirements.yml**
+  
+  - Select **localhost** inventory
   - **Extra CLI arugments for 001.requirements.yml task -** ["-u","semaphore"]
   
   ![alt text](../../images/semaphore_4_requirements_task.png)
   
+   **For other tasks**
+  
+  - Select **gluster_fs** inventory
   - **Extra CLI arugments for all other tasks -** ["-u","ubuntu"]  (Replace "ubuntu" as per the username having root access in the remote machines)
   
   ![alt text](../../images/semaphore_4_all_other_tasks.png)
