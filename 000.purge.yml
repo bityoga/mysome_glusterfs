@@ -19,12 +19,22 @@
       shell: "umount -lf /mnt/brick1"
       ignore_errors: True
 
+    - name: "Detach GlusterFS peers"
+      shell: "echo y | gluster peer detach {{item}} force"
+      ignore_errors: True
+      loop: "{{gluster_cluster_private_hosts}}"
+    
+    - name: "Remove Bricks"
+      shell: "echo y | gluster volume remove-brick gfs0 {{item}}:/mnt/brick1 force"
+      ignore_errors: True      
+      loop: "{{gluster_cluster_private_hosts}}"
+    
     - name: "Stop glusterfs volume if running"
-      shell: "echo y | sudo gluster volume stop {{gluster_cluster_volume}}"
+      shell: "echo y | gluster volume stop {{gluster_cluster_volume}} force"
       ignore_errors: True
 
     - name: "Delete glusterfs volume"
-      shell: "echo y | sudo gluster volume delete {{gluster_cluster_volume}}"
+      shell: "echo y | gluster volume delete {{gluster_cluster_volume}}"
       ignore_errors: True
 
     - name: "vgremove firefly"
