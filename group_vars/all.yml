@@ -36,5 +36,5 @@ devmode: True
 
 # SET THESE VALUES WHEN devmode is True
 # ###Size in GB for the initial GFS volume###
-gfs_size: 1G
+gfs_size: 18G
 # ###########################################
