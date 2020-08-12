@@ -50,12 +50,9 @@ There are very few parameters to be configured currently. All configurations are
 
 ## Defining the remote host machines
 In order to set up gusterfs cluster we would need a set of host machines. Ansible will comunicate with these machines and setup your cluster.
-
-### Setting up remote host machines [optional]
-Currently the automation of VM generation is configured for only Digital Ocean. You can use github project digital_ocean_automation [https://github.com/achak1987/digital_ocean_automation] for spinning up a set of host machines. However, if you already have a set of host machines either spinned up using the above project or any other method, configure the connections with these host machines as described bellow. 
  
 ### Configuring connection to remote machine
-- Please navigate to the file `inventory/hosts`
+- Please navigate to the file `inventory/hosts`, if the folder and file is not present, create them
 - In order the specify the host machines, you need to populate this file `inventory/hosts` with the ip address of these machines. Each line/row in the file would represent a host machine. The root/first line `[gfscluster]` gives a name to the cluster for internal reference in the project and **must not be changed**. Please fill each line thereafter in the format: 
 
 `hostname ansible_host=remote.machine1.ip.adress ansible_python_interpreter="/path/to/python"`
@@ -69,17 +66,19 @@ gfs1 ansible_host=147.182.121.59  ansible_python_interpreter="/usr/bin/python3"
 gfs2 ansible_host=117.247.73.159  ansible_python_interpreter="/usr/bin/python3"
 gfs2 ansible_host=157.245.79.195  ansible_python_interpreter="/usr/bin/python3"
 ```
-- **!!!Required: Ensure that you have password less SSH for these host for the user root**
+- **!!!Required: Ensure that you have passwordless SSH access for these hosts for a given user**
 
 ## Setting up glusterfs
 Setting up of glusterfs requires the following steps. Creating th infrastructure with all dependencies installed and starting the gluster services in all the host machines. Finally, there is also mounting the point, but it is required only at client system that uses this gluster cluster. Therefore the mounting is not conducted for this cluster and the playbook is just shown as an example on how to mount this cluster into another system.
+
+- **Run the playbooks that follows as the user who has passwordless SSH access to the aforementioned hosts. Change the value for playbooks with argument -u to the appropiate username. In our case, we have it as root**
 
 - Playbook: `000.purge.yml`
   - Execute: `ansible-playbook -v 000.purge.yml -u root`
   - Purges all existing glusterfs setup for a fresh install
   - Ignore all the warnings while running this playbook. Warnings may vary depending upon the progress in the deployment stage.
 - Playbook: `001.requirements.yml`
-  - Execute: `ansible-playbook -v 001.requirements.yml -u root`
+  - Execute: `ansible-playbook -v 001.requirements.yml`
   - Installs required ansible galaxy packages in the machine(localhost) which runs the ansible playbooks
 - Playbook: `002.setup_glusterfs_infra.yml`
   - Execute: `ansible-playbook -v 002.setup_glusterfs_infra.yml -u root`
