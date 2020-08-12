@@ -50,6 +50,6 @@
     - name: Mount Gluster volume
       mount:
         path: "{{mount_point}}"
-        src: "{{gluster_mount_server}}:/{{gluster_cluster_volume}}"
+        src: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:/{{gluster_cluster_volume}}"
         fstype: glusterfs
         state: mounted

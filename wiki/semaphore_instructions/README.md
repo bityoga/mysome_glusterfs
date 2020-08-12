@@ -44,7 +44,7 @@ Once ansible-semaphore is installed, you can verify it by accessing its url.
     **For 004.mount_glusterfs.yml**
   
   - Select **gluster_fs** inventory
-  - **Extra CLI arugments for 004.mount_glusterfs task -** ["-u","ubuntu","--extra-vars","gluster_mount_server='18.156.155.161'"]
+  - **Extra CLI arugments for 004.mount_glusterfs task -** ["-u","ubuntu"]
   - (Replace "ubuntu" as per the username having root access in the remote machines)
   - (Replace "18.156.155.161" with one of the ips from the gluster_fs inventory
   
