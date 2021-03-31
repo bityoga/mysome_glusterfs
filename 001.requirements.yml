@@ -6,7 +6,7 @@
   become: no
   tasks:
     - name: "Install Ansible roles for GlusterFS"
-      shell: "ls -lah .ansible/"
+      shell: "ls -lah ~/.ansible/"
       register: output
       
     - name: "Install Ansible roles for GlusterFS"
