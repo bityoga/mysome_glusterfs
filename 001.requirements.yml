@@ -8,9 +8,12 @@
     - name: "Install Ansible roles for GlusterFS"
       shell: "ls -lah ~/.ansible/"
       register: output
+
+    - debug:
+        var: output
       
     - name: "Install Ansible roles for GlusterFS"
-      shell: "ansible-galaxy install -r requirements.yml --output-path /var/lib/awx/.ansible/"
+      shell: "ansible-galaxy --help"   # install -r requirements.yml "
       register: output
 
     - debug:
