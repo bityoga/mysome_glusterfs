@@ -13,7 +13,8 @@
         var: output
       
     - name: "Install Ansible roles for GlusterFS"
-      shell: "ansible-galaxy --help"   # install -r requirements.yml "
+      shell: "ansible-galaxy install -r requirements.yml "
+      become_user: root
       register: output
 
     - debug:
