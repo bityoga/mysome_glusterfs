@@ -6,9 +6,13 @@
   become: no
   tasks:
     - name: "Install Ansible roles for GlusterFS"
-      shell: "ansible-galaxy install -r requirements.yml"
+      shell: "ls -lah .ansible/"
       register: output
-      become: root
+      
+    - name: "Install Ansible roles for GlusterFS"
+      shell: "ansible-galaxy install -r requirements.yml --output-path /var/lib/awx/.ansible/"
+      register: output
+
     - debug:
         var: output
         
