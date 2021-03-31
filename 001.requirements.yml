@@ -6,7 +6,7 @@
   become: no
   tasks:      
     - name: "Install Ansible roles for GlusterFS"
-      shell: "ansible-galaxy install -p /var/lib/awx/.ansible/roles -r requirements.yml"
+      shell: "ansible-galaxy install -p $HOME/.ansible/roles -r requirements.yml"
       register: output
 
     - debug:
