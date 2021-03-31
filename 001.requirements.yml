@@ -4,17 +4,9 @@
   gather_facts: no
   hosts: localhost
   become: no
-  tasks:
+  tasks:      
     - name: "Install Ansible roles for GlusterFS"
-      shell: "ls -lah ~/.ansible/"
-      register: output
-
-    - debug:
-        var: output
-      
-    - name: "Install Ansible roles for GlusterFS"
-      shell: "ansible-galaxy install -r requirements.yml "
-      become_user: root
+      shell: "ansible-galaxy install -r requirements.yml && cp requirements_roles/* ~/.ansible/roles/"
       register: output
 
     - debug:
