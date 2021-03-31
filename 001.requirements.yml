@@ -8,6 +8,7 @@
     - name: "Install Ansible roles for GlusterFS"
       shell: "ansible-galaxy install -r requirements.yml"
       register: output
+      become: root
     - debug:
         var: output
         
