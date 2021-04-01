@@ -30,7 +30,7 @@ mount_point: "/var/persistantfs"
 
 # Set it to True when there isn't any seperate volume on which you want to setup glusterfs
 # If you have a seperate volume(e.g.: /dev/xvdf) other than where your OS is located, set this value to False
-devmode: True
+devmode: False
 
 # SET THESE VALUES WHEN devmode is True
 # ###Size in GB for the initial GFS volume###
