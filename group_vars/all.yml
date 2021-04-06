@@ -37,4 +37,4 @@ devmode: False
 gfs_size: 18G
 # ###########################################\
 
-root_user_name: root
+root_user_name: "root"
