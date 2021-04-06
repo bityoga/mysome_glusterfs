@@ -35,4 +35,6 @@ devmode: False
 # SET THESE VALUES WHEN devmode is True
 # ###Size in GB for the initial GFS volume###
 gfs_size: 18G
-# ###########################################
+# ###########################################\
+
+root_user: root
