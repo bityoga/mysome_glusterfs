@@ -2,7 +2,7 @@
 # ansible-playbook -v 003.setup_glusterfs_cluster.yml -u root
 - hosts: all
   become: yes
-  become_user: "{{root_user_name}}"
+  become_user: {{root_user_name}}
   gather_facts: True
 
   # Install glusterfs-server before running the tasks of
