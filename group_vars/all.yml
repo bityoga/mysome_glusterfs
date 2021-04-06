@@ -36,5 +36,3 @@ devmode: False
 # ###Size in GB for the initial GFS volume###
 gfs_size: 18G
 # ###########################################\
-
-root_user_name: "root"
