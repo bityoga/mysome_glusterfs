@@ -14,6 +14,8 @@
         
     - name: "Installing Jmespath through pip3"
       pip:
-        name: jmespath
+        name: 
+        - jmespath
+        - docker
         state: present
         executable: pip3
