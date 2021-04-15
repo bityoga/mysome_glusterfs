@@ -1,6 +1,6 @@
 ---
 # ansible-playbook -v 001.requirements.yml -u root
-- name: "Installing required ansible galaxy packages"
+# - name: "Installing required ansible galaxy packages"
 #   gather_facts: no
   hosts: localhost
   become: no
