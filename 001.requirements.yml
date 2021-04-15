@@ -5,6 +5,10 @@
   hosts: localhost
   become: no
   tasks:      
+  
+    - debug:
+        var: output
+        
     - name: "Install Ansible roles for GlusterFS"
       shell: "ansible-galaxy install -p $HOME/.ansible/roles -r requirements.yml"
       register: output
