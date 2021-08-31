@@ -51,6 +51,9 @@
     - name: Pause for 5 seconds to build  cache
       pause:
         seconds: 5
+        
+    - debug:
+        var: gluster_cluster_hosts
   
   vars:
     # The transport type for the volume (tcp / rdma / tcp,rdma)
