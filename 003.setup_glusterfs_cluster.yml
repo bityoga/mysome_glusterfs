@@ -72,6 +72,6 @@
         name: "{{ gluster_cluster_volume }}"
         bricks: '/mnt/brick1'
         force: true
-        transport: 'tcp,rdma'
+        transport: 'tcp'
         cluster: "{{ gluster_cluster_private_hosts if gluster_cluster_private_hosts is defined and gluster_cluster_private_hosts | length > 0 else gluster_cluster_hosts}}"
       run_once: true

@@ -15,7 +15,7 @@
 
     - name: Add new apt source
       apt_repository:
-        repo: deb https://download.gluster.org/pub/gluster/glusterfs/{{ glusterd_version }}/LATEST/Debian/stretch/amd64/apt stretch main
+        repo: ppa:gluster/glusterfs-{{ glusterd_version }}
         filename: gluster.list
         state: present
       when: ansible_os_family == 'Debian'
