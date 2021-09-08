@@ -51,17 +51,27 @@
     - name: Pause for 5 seconds to build  cache
       pause:
         seconds: 5
-  
-  vars:
-    # The transport type for the volume (tcp / rdma / tcp,rdma)
-    gluster_cluster_transport: 'tcp,rdma'
-    # Force option will be used while creating a volume, any warnings will be suppressed.
-    gluster_cluster_force: 'yes'
-    # Brick paths on servers. Multiple brick paths can be separated by commas.
-    gluster_cluster_bricks: '/mnt/brick1'
 
-    # Replica count while creating a volume. Currently replica 2 and replica 3 are supported.
-    #gluster_cluster_replica_count: '2'
+    - name: Start glusterd on the nodes if not already started
+      service:
+          state: started
+          name: glusterd
+          enabled: yes
+      delegate_to: "{{ item }}"
+      run_once: true
+      with_items: "{{ gluster_cluster_hosts }}"
 
-  roles:
-     - gluster.cluster
+    - name: create gluster volume
+      vars:
+        # Get the private ips for each host as a string where each host ip is seperated by a comma
+        glusterfs_cluster_private_ips: "{{ansible_play_hosts | map('extract', hostvars, ['ansible_eth0', 'ipv4', 'address']) | join(',') }}"
+        # Convert it to a list
+        gluster_cluster_private_hosts: "{{ glusterfs_cluster_private_ips.split(',') }}"
+      gluster.gluster.gluster_volume:
+        state: present
+        name: "{{ gluster_cluster_volume }}"
+        bricks: '/mnt/brick1'
+        force: true
+        transport: 'tcp,rdma'
+        cluster: "{{ gluster_cluster_private_hosts if gluster_cluster_private_hosts is defined and gluster_cluster_private_hosts | length > 0 else gluster_cluster_hosts}}"
+      run_once: true
