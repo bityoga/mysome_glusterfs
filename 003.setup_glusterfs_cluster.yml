@@ -54,7 +54,7 @@
   
   vars:
     # The transport type for the volume (tcp / rdma / tcp,rdma)
-    gluster_cluster_transport: 'tcp,rdma'
+    gluster_cluster_transport: 'tcp'
     # Force option will be used while creating a volume, any warnings will be suppressed.
     gluster_cluster_force: 'yes'
     # Brick paths on servers. Multiple brick paths can be separated by commas.
