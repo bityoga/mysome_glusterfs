@@ -6,10 +6,10 @@
   become: no
   tasks:
     - name: "Install Ansible roles for GlusterFS"
-      shell: "ansible-galaxy install -r requirements.yml --force"
+      shell: "ansible-galaxy install -p $HOME/.ansible/roles -r requirements.yml --force"
 
     - name: "Install Ansible galaxy collection for GlusterFS volume support"
-      shell: "ansible-galaxy collection install gluster.gluster --force"
+      shell: "ansible-galaxy collection install -p $HOME/.ansible/roles gluster.gluster --force"
 
     - name: "Installing Jmespath through pip3"
       pip:
