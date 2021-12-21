@@ -2,12 +2,12 @@
 glusterfs_daemon: "glusterd"
 glusterfs_cluster_public_ips: "{{ groups['gfscluster'] | map('extract', hostvars, ['ansible_host']) | join(',') }}"
 #glusterfs_cluster_private_ips: "{{ groups['gfscluster'] | map('extract', hostvars, ['ansible_eth0', 'ipv4', 'address']) | join(',') }}"
-glusterd_version: "7"
+glusterd_version: "9"
 # gluster cluster ips
 gluster_cluster_hosts: "{{ glusterfs_cluster_public_ips.split(',') }}"
 #gluster_cluster_private_hosts: "{{ glusterfs_cluster_private_ips.split(',') }}"
 # Get the private ips for each host as a string where each host ip is seperated by a comma
-glusterfs_cluster_private_ips: "{{ansible_play_hosts | map('extract', hostvars, ['ansible_eth0', 'ipv4', 'address']) | join(',') }}"
+glusterfs_cluster_private_ips: "{{ansible_play_hosts | map('extract', hostvars, ['ansible_default_ipv4', 'address']) | join(',') }}"
 # Convert it to a list
 gluster_cluster_private_hosts: "{{ glusterfs_cluster_private_ips.split(',') }}"
 

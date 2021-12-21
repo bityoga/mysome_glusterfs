@@ -5,8 +5,3 @@
     # Download gluster.infra from git
     - name: gluster.infra
       src: https://github.com/gluster/gluster-ansible-infra
-    
-    # Download gluster.cluster from git
-    - name: gluster.cluster
-      src: https://github.com/achak1987/gluster-ansible-cluster
-      version: "aws_support"
