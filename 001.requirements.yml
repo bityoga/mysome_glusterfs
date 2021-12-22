@@ -11,6 +11,9 @@
     - name: "Install Ansible galaxy collection for GlusterFS volume support"
       shell: "ansible-galaxy collection install -p $HOME/.ansible/roles gluster.gluster --force"
 
+    - name: "Install Ansible galaxy collection for GlusterFS volume support without specifying path"
+      shell: "ansible-galaxy collection install gluster.gluster --force"
+
     - name: "Installing Jmespath through pip3"
       pip:
         name: jmespath
