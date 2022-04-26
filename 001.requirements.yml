@@ -5,14 +5,23 @@
   hosts: localhost
   become: no
   tasks:
+    
+    
     - name: "Install Ansible roles for GlusterFS"
       shell: "ansible-galaxy install -p $HOME/.ansible/roles -r requirements.yml --force"
 
     - name: "Install Ansible galaxy collection for GlusterFS volume support without specifying path"
       shell: "ansible-galaxy collection install gluster.gluster --force"
     
-    - name: "Install Ansible galaxy collection for GlusterFS volume support specifying path for AWS"
+    - name: "Install Ansible galaxy collection for GlusterFS volume support specifying path for AWS conf"
       shell: "ansible-galaxy collection install -p $HOME/.ansible/collections gluster.gluster --force"
+    
+    - name: "Install Ansible galaxy collection community.general"
+      shell: "ansible-galaxy collection install community.general --force"
+    
+    - name: "Install Ansible galaxy collection community.general for AWS conf"
+      shell: "ansible-galaxy collection install -p $HOME/.ansible/collections community.general --force"
+  
 
     - name: "Installing Jmespath through pip3"
       pip:
